@@ -46,7 +46,7 @@ flowchart LR
 ```bash
 # 将仓库克隆到 Codex 的 skills 目录中
 cd ~/.codex/skills
-git clone <仓库地址> java-developer-skill
+git clone https://github.com/chichengyu/java-developer-skill.git java-developer-skill
 ```
 
 完成后重启 Codex，技能会自动加载。
@@ -182,3 +182,4 @@ A: 首次连接使用 `--password` 参数后，凭证会自动保存到配置文
 
 **Q: 两个技能必须一起安装吗？**  
 A: 不必。可以只安装其中一个，各自独立使用，互不依赖。
+
