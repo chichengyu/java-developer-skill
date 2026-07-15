@@ -1,0 +1,18 @@
+﻿# 语言统计：隐藏 .gitkeep 文件
+.gitkeep linguist-generated=true
+
+# 语言统计：隐藏 .class 编译产物
+*.class linguist-generated=true
+
+# 文本文件统一使用 LF 换行符
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.java text eol=lf
+*.json text eol=lf
+
+# 二进制文件标记
+*.class binary
+*.jar binary
+*.png binary
+*.jpg binary

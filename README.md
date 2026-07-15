@@ -1,8 +1,15 @@
 ﻿# java-developer-skill
 
-Codex Java 工具技能包，包含 **数据库查询分析** 和 **研发管控契约** 两个技能。  
-安装后，只需说话就能查询 MySQL 数据库、分析表结构、对比 Java 实体，同时遵守标准化的研发管控流程。
+Codex Java 工具技能包，包含数据库查询分析和研发管控契约两个技能。
+安装后只需说话就能查询 MySQL 数据库、分析表结构、对比 Java 实体，并遵循标准化的研发管控流程。
 
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17%2B-orange?logo=openjdk&logoColor=white" />
+  <img src="https://img.shields.io/badge/Codex-Skill-blueviolet" />
+  <img src="https://img.shields.io/badge/MySQL-Ready-blue?logo=mysql&logoColor=white" />
+  <img src="https://img.shields.io/badge/license-MIT-green" />
+</p>
 ---
 
 ## 技能总览
