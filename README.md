@@ -61,9 +61,9 @@ git clone https://github.com/chichengyu/java-developer-skill.git java-developer-
 ### 方式二：手动复制
 
 ```bash
-# 将 skills/.curated/ 下的两个技能目录复制到 Codex skills 目录
-cp -r C:\a\java-developer-skill\skills\.curated\java-mysql-query ~\.codex\skills\
-cp -r C:\a\java-developer-skill\skills\.curated\java-superpowers-contract ~\.codex\skills\
+# 将 skills/ 下的两个技能目录复制到 Codex skills 目录
+cp -r C:\a\java-developer-skill\skills\java-mysql-query ~\.codex\skills\
+cp -r C:\a\java-developer-skill\skills\java-superpowers-contract ~\.codex\skills\
 ```
 
 完成后重启 Codex。
@@ -160,7 +160,7 @@ rm -rf ~\.codex\skills\java-superpowers-contract
 ```
 C:\a\java-developer-skill\
 ├── README.md
-└── skills\.curated\
+└── skills\
     ├── java-mysql-query\            # MySQL 数据库查询与分析技能
     │   ├── SKILL.md                 # 技能描述与使用说明
     │   ├── agents\openai.yaml       # Codex Agent 接口定义
