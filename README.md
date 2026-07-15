@@ -48,35 +48,33 @@ flowchart LR
 
 ## 安装流程
 
-### 方式一：通过 Git 克隆（推荐）
+> **注意**：Codex 只在 `~/.codex/skills/` 的一级子文件夹下识别技能，不能嵌套在子目录中。
 
-```bash
-# 将仓库克隆到 Codex 的 skills 目录中
-cd ~/.codex/skills
-git clone https://github.com/chichengyu/java-developer-skill.git java-developer-skill
+### 方式一：手动复制（推荐）
+
+如果仓库已在 `C:\a\java-developer-skill`：
+
+```cmd
+xcopy /E /I /Y C:\a\java-developer-skill\skills\java-mysql-query %USERPROFILE%\.codex\skills\java-mysql-query
+xcopy /E /I /Y C:\a\java-developer-skill\skills\java-superpowers-contract %USERPROFILE%\.codex\skills\java-superpowers-contract
 ```
 
-完成后重启 Codex，技能会自动加载。
+### 方式二：从 GitHub 克隆后再复制
 
-### 方式二：手动复制
-
-```bash
-# 将 skills/ 下的两个技能目录复制到 Codex skills 目录
-cp -r C:\a\java-developer-skill\skills\java-mysql-query ~\.codex\skills\
-cp -r C:\a\java-developer-skill\skills\java-superpowers-contract ~\.codex\skills\
+```cmd
+git clone https://github.com/chichengyu/java-developer-skill.git %TEMP%\java-developer-skill
+xcopy /E /I /Y %TEMP%\java-developer-skill\skills\java-mysql-query %USERPROFILE%\.codex\skills\java-mysql-query
+xcopy /E /I /Y %TEMP%\java-developer-skill\skills\java-superpowers-contract %USERPROFILE%\.codex\skills\java-superpowers-contract
 ```
-
-完成后重启 Codex。
 
 ### 验证安装
 
-在 Codex 聊天中输入以下任一提示，看技能是否响应：
+重启 Codex 后，在聊天中输入以下任意提示，看技能是否响应：
 
 - "帮我连接到本地 MySQL 数据库，查看所有表结构"
 - "使用 Java 研发布控契约分析当前任务"
 
 ---
-
 ## 使用指南
 
 ### 1. java-mysql-query —— MySQL 数据库查询与分析
