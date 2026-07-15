@@ -1,0 +1,4 @@
+interface:
+  display_name: "Java 研发布控契约"
+  short_description: "Java 项目全场景硬隔离、最小改动与无感强制审计研发布控契约"
+  default_prompt: "遵循 Java + Superpowers 终极研发布控契约，进行全链路影响分析与原子级任务拆解"
