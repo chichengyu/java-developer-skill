@@ -45,7 +45,7 @@ public class DatabaseQuery {
         }
 
         String url = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName
-                   + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=utf8mb4";
+                   + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
 
         try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword)) {
             // 连接成功，自动保存配置（用户只需输入一次）
