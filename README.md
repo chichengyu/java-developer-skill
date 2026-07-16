@@ -169,6 +169,8 @@ sequenceDiagram
 
 **核心能力：** 为 Java 项目提供全流程研发现控，强制最小改动、物理隔离与审计跟踪。
 
+> **安装后自动强制无感使用：** 本技能采用零门槛全时激活机制。用户发起任何 Java 开发需求对话时，Codex 在底层自动唤醒 Superpowers 全技能链进行完整分析与规划，无需用户主动提及关键词或手动激活。安装即生效，全程无感。
+
 功能清单：
 
 | 功能 | 说明 |
@@ -180,6 +182,8 @@ sequenceDiagram
 | DDL 强制 rollback | 数据库结构变更自动生成回滚脚本 |
 | 安全审查 | SQL 注入检测、密钥硬编码检查、API 兼容性检查 |
 | 执行审计 | 每次回复附带【执行审计】报告 |
+
+
 
 ---
 
@@ -204,4 +208,6 @@ sequenceDiagram
 三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
 
 完整命令参考：[java-mysql-query](skills/java-mysql-query/SKILL.md) / [java-superpowers-contract](skills/java-superpowers-contract/SKILL.md) / [token-economizer](skills/token-economizer/SKILL.md)
+
+
 
