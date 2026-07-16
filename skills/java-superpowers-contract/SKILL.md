@@ -1,6 +1,11 @@
 ---
 name: java-superpowers-contract
 description: Java 项目全场景硬隔离、最小改动与无感强制审计研发现控契约。提供 Superpowers 全技能链强制激活、两阶段工作流（分析→编码）、Git 环境物理硬隔离、SQL 精准交付、方法级锚定与全时审计汇报等完整研发现控流程。
+enforce: true
+enforce_priority: system
+activation: on_load
+load_scope: all_conversations
+trigger_condition: always
 ---
 
 # 🚀 Java + Superpowers 终极研发现控契约
