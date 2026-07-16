@@ -150,43 +150,18 @@ sequenceDiagram
 
 功能清单：
 
-| 功能 | 说明 |
-|------|------|
-| 表结构分析 | 自动输出 schema、字段类型、索引、约束 |
-| 表依赖关系图 | 基于外键构建表依赖拓扑（Mermaid 图表） |
-| ER 图 | 实体关系可视化 |
-| 数据质量评估 | 三指标：NULL 率、空串率、哨兵值率 |
-| SQL EXPLAIN 分析 | 执行计划解读与优化建议 |
-| CSV 导出 | 查询结果导出为 CSV 文件 |
-| Java 实体对比 | 对比数据库表与现有 Java 实体类的字段一致性 |
-| 需求分析 | 结合业务需求给出数据模型建议 |
+| 功能 | 说明 | 一句话描述 |
+|------|------|-----------|
+| 表结构分析 | 自动输出 schema、字段类型、索引、约束 | 说话查数据库，自动输出完整表结构 |
+| 表依赖关系图 | 基于外键构建表依赖拓扑（Mermaid 图表） | 说话查数据库，自动输出表依赖图 |
+| ER 图 | 实体关系可视化 | 说话查数据库，自动输出 ERD |
+| 数据质量评估 | 三指标：NULL 率、空串率、哨兵值率 | 说话查数据库，自动输出深度分析报告 |
+| SQL EXPLAIN 分析 | 执行计划解读与优化建议 | 说话查数据库，自动输出 SQL 优化建议 |
+| CSV 导出 | 查询结果导出为 CSV 文件 | 说话查数据库，自动导出为 CSV |
+| Java 实体对比 | 对比数据库表与现有 Java 实体类的字段一致性 | 说话查数据库，自动输出实体对比 |
+| 需求分析 | 结合业务需求给出数据模型建议 | 说话查数据库，自动输出分析报告 |
 
 **入口：** `scripts/database_query.py`（三语言实现：Python / Node.js / Java）
-
-#### 三语言脚本工具
-
-| 工具 | Python | Node.js | Java |
-|------|--------|---------|------|
-| 数据库查询主入口 | `database_query.py` | `database-query.js` | `DatabaseQuery.java` |
-| 表依赖分析 | `table_dependency.py` | `table-dependency.js` | `TableDependency.java` |
-| ER 图生成 | `erd_viewer.py` | `erd-viewer.js` | `ErdViewer.java` |
-| SQL EXPLAIN 分析 | `sql_explain_analyzer.py` | `sql-explain-analyzer.js` | `SqlExplainAnalyzer.java` |
-| 审计报告生成 | `audit_report_generator.py` | `audit-report-generator.js` | `AuditReportGenerator.java` |
-| CSV 导出 | `csv_exporter.py` | `csv-exporter.js` | `CsvExporter.java` |
-| CI/CD 助手 | `cicd_helper.py` | `cicd-helper.js` | `CicdHelper.java` |
-| 需求分析 | `req_analyzer.py` | `req-analyzer.js` | `ReqAnalyzer.java` |
-| 技能桥接 | `skill_bridge.py` | `skill-bridge.js` | `SkillBridge.java` |
-
-每个工具均提供 Python、Node.js 和 Java 三种实现，可根据运行环境任意切换，保证结果一致。
-
-#### 三语言实现对比
-
-| 维度 | Python | Node.js | Java |
-|------|--------|---------|------|
-| 适用场景 | 快速调试、脚本调用 | 前端集成、轻量服务 | 企业级应用、Spring 集成 |
-| 依赖启动 | pip install pymysql | npm install mysql2 | Maven/Gradle 引入驱动 |
-| 执行方式 | `python database_query.py` | `node database-query.js` | `java DatabaseQuery.java` |
-| 输出格式 | JSON / 控制台 | JSON / 控制台 | JSON / 控制台 |
 
 ---
 
@@ -229,3 +204,4 @@ sequenceDiagram
 三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
 
 完整命令参考：[java-mysql-query](skills/java-mysql-query/SKILL.md) / [java-superpowers-contract](skills/java-superpowers-contract/SKILL.md) / [token-economizer](skills/token-economizer/SKILL.md)
+
