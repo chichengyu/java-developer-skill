@@ -68,6 +68,29 @@ java-developer-skill/
 
 ---
 
+## 安装
+
+**方式一：复制粘贴命令**
+
+```cmd
+:: 将 <REPO_DIR> 替换为你本地仓库的实际路径
+xcopy /E /I /Y <REPO_DIR>\skills\java-mysql-query %USERPROFILE%\.codex\skills\java-mysql-query
+xcopy /E /I /Y <REPO_DIR>\skills\java-superpowers-contract %USERPROFILE%\.codex\skills\java-superpowers-contract
+xcopy /E /I /Y <REPO_DIR>\skills\token-economizer %USERPROFILE%\.codex\skills\token-economizer
+```
+
+安装 Python 依赖：`pip install pymysql`
+
+重启 Codex，输入 `"帮我连接到本地 MySQL"` 验证。
+
+**方式二：对话安装（复制给 Codex）**
+
+```
+帮我从仓库 [chichengyu/java-developer-skill](https://github.com/chichengyu/java-developer-skill) 安装 java-mysql-query、java-superpowers-contract 和 token-economizer 技能到 ~/.codex/skills/ 目录下
+```
+
+---
+
 ## 依赖关系
 
 ```mermaid
@@ -117,27 +140,6 @@ sequenceDiagram
     Codex-->>Dev: 交付结果 + 【执行审计】
 ```
 
-## 安装
-
-**方式一：复制粘贴命令**
-
-```cmd
-:: 将 <REPO_DIR> 替换为你本地仓库的实际路径
-xcopy /E /I /Y <REPO_DIR>\skills\java-mysql-query %USERPROFILE%\.codex\skills\java-mysql-query
-xcopy /E /I /Y <REPO_DIR>\skills\java-superpowers-contract %USERPROFILE%\.codex\skills\java-superpowers-contract
-xcopy /E /I /Y <REPO_DIR>\skills\token-economizer %USERPROFILE%\.codex\skills\token-economizer
-```
-
-安装 Python 依赖：`pip install pymysql`
-
-重启 Codex，输入 `"帮我连接到本地 MySQL"` 验证。
-
-**方式二：对话安装（复制给 Codex）**
-
-```
-帮我从仓库 C:\a\java-developer-skill 安装 java-mysql-query、java-superpowers-contract 和 token-economizer 技能到 ~/.codex/skills/ 目录下
-```
-
 ---
 
 ## 技能功能
@@ -160,6 +162,31 @@ xcopy /E /I /Y <REPO_DIR>\skills\token-economizer %USERPROFILE%\.codex\skills\to
 | 需求分析 | 结合业务需求给出数据模型建议 |
 
 **入口：** `scripts/database_query.py`（三语言实现：Python / Node.js / Java）
+
+#### 三语言脚本工具
+
+| 工具 | Python | Node.js | Java |
+|------|--------|---------|------|
+| 数据库查询主入口 | `database_query.py` | `database-query.js` | `DatabaseQuery.java` |
+| 表依赖分析 | `table_dependency.py` | `table-dependency.js` | `TableDependency.java` |
+| ER 图生成 | `erd_viewer.py` | `erd-viewer.js` | `ErdViewer.java` |
+| SQL EXPLAIN 分析 | `sql_explain_analyzer.py` | `sql-explain-analyzer.js` | `SqlExplainAnalyzer.java` |
+| 审计报告生成 | `audit_report_generator.py` | `audit-report-generator.js` | `AuditReportGenerator.java` |
+| CSV 导出 | `csv_exporter.py` | `csv-exporter.js` | `CsvExporter.java` |
+| CI/CD 助手 | `cicd_helper.py` | `cicd-helper.js` | `CicdHelper.java` |
+| 需求分析 | `req_analyzer.py` | `req-analyzer.js` | `ReqAnalyzer.java` |
+| 技能桥接 | `skill_bridge.py` | `skill-bridge.js` | `SkillBridge.java` |
+
+每个工具均提供 Python、Node.js 和 Java 三种实现，可根据运行环境任意切换，保证结果一致。
+
+#### 三语言实现对比
+
+| 维度 | Python | Node.js | Java |
+|------|--------|---------|------|
+| 适用场景 | 快速调试、脚本调用 | 前端集成、轻量服务 | 企业级应用、Spring 集成 |
+| 依赖启动 | pip install pymysql | npm install mysql2 | Maven/Gradle 引入驱动 |
+| 执行方式 | `python database_query.py` | `node database-query.js` | `java DatabaseQuery.java` |
+| 输出格式 | JSON / 控制台 | JSON / 控制台 | JSON / 控制台 |
 
 ---
 
