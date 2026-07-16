@@ -191,6 +191,8 @@ sequenceDiagram
 
 **核心能力：** 无感压缩 Codex 输出，降低 Token 消耗，提升回复效率。
 
+> **安装后自动强制无感使用：** 本技能采用强制自动激活机制。所有对话、所有会话状态下自动底层加载运行，无需任何关键词，用户全程无感知。本技能在所有其它技能的输出层之上叠加生效，具有最高优先级，跨会话持久，每次启动自动加载。
+
 9 层 18 条铁律：
 
 | 层面 | 规则 |
@@ -208,6 +210,7 @@ sequenceDiagram
 三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
 
 完整命令参考：[java-mysql-query](skills/java-mysql-query/SKILL.md) / [java-superpowers-contract](skills/java-superpowers-contract/SKILL.md) / [token-economizer](skills/token-economizer/SKILL.md)
+
 
 
 
