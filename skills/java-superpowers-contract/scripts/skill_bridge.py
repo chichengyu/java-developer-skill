@@ -8,8 +8,9 @@ Skill Bridge (Python 版)
   python skill_bridge.py --analyze-result analyze_result.json --audit-output audit_input.json
   python skill_bridge.py --db mydb --tables user order --audit-format markdown --output combined_report.md
 """
-import json, sys, os, subprocess, argparse, datetime
+import json, sys, os, argparse, datetime
 from pathlib import Path
+from database_query import MySQLQuery
 
 QUALITY_WARN_THRESHOLDS = {"nullRatio": 0.2, "emptyStringRatio": 0.3, "sentinelValueRatio": 0.1}
 
@@ -84,15 +85,13 @@ def main():
     elif args.db and args.tables:
         # 直接分析表并生成审计报告
         all_issues = []
+        q = MySQLQuery(args.host, args.port, args.db, args.user, args.password)
+        q.connect()
         for table in args.tables:
-            cmd = ["java", "-cp", ".", "scripts.DatabaseQuery", "--host", args.host, "--port", str(args.port),
-                   "--db", args.db, "--user", args.user]
-            if args.password: cmd.extend(["--password", args.password])
-            cmd.extend(["--analyze-table", table])
-            out = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-            data = json.loads(out.stdout)
+            data = q.analyze_table(table)
             audit = convert_analyze_to_audit(data, session_id=f"bridge_{table}")
             all_issues.extend(audit["dataQualityIssues"])
+        q.close()
         combined_audit = {
             "sessionId": f"bridge_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}",
             "timestamp": datetime.datetime.now().isoformat(),

@@ -4,8 +4,9 @@
  * 将 SQL 查询结果导出为 CSV 文件。
  * 用法: node csv-exporter.js --db mydb "SELECT * FROM user" --output users.csv
  */
-const { execSync } = require("child_process");
 const fs = require("fs");
+const { execSync } = require("child_process");
+const { MySQLQuery } = require("./database-query.js");
 const path = require("path");
 
 function toCsv(data) {
@@ -48,7 +49,7 @@ function run(opts) {
     fs.writeFileSync(opts.output, "\ufeff" + csv, "utf-8");
     console.log(JSON.stringify({ status: "success", output: opts.output, rows: arr.length }));
   } else if (opts.sql) {
-    const cmd = `java -cp . scripts.DatabaseQuery --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --ssl ${opts.ssl} --export-csv "${opts.sql.replace(/"/g, '\\"')}" --output "${opts.output}"`;
+    const cmd = `python database_query.py --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --ssl ${opts.ssl} --export-csv "${opts.sql.replace(/"/g, '\\"')}" --output "${opts.output}"`;
     try {
       const out = execSync(cmd, { timeout: 60000, shell: true }).toString();
       console.log(out.trim());

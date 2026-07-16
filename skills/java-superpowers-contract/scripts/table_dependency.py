@@ -8,9 +8,10 @@ Table Dependency Analyzer (Python 版)
   python table_dependency.py --input relations.json         # 从JSON加载
   python table_dependency.py --db mydb --output deps.html   # 输出HTML
 """
-import json, sys, os, subprocess, argparse
+import json, sys, os, argparse
 from collections import defaultdict, deque
 from pathlib import Path
+from database_query import MySQLQuery
 
 HTML_TEMPLATE = '''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -176,13 +177,11 @@ def main():
         data = raw.get("relations", raw) if isinstance(raw, dict) else raw
         db_name = raw.get("database", args.db or "unknown") if isinstance(raw, dict) else args.db or "unknown"
     elif args.db:
-        cmd = ["java", "-cp", ".;mysql-connector-j-8.3.0.jar", "scripts.DatabaseQuery",
-               "--host", args.host, "--port", str(args.port), "--db", args.db,
-               "--user", args.user, "--ssl", args.ssl]
-        if args.password: cmd.extend(["--password", args.password])
-        cmd.append("--get-relations")
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-        raw = json.loads(res.stdout)
+        q = MySQLQuery(args.host, args.port, args.db, args.user, args.password, args.ssl)
+        q.connect()
+        res = q.get_relations()
+        q.close()
+        raw = res.get("relations", res)
         data = raw.get("relations", raw) if isinstance(raw, dict) else raw
         db_name = args.db
     else:

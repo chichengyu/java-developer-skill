@@ -4,8 +4,9 @@
  * 连接 java-mysql-query 与 java-superpowers-contract 的桥接工具。
  * 用法: node skill-bridge.js --db mydb --tables user order --output report.md
  */
-const { execSync } = require("child_process");
 const fs = require("fs");
+const { execSync } = require("child_process");
+const { MySQLQuery } = require("./database-query.js");
 const path = require("path");
 
 const QUALITY_WARN = { nullRatio: 0.2, emptyStringRatio: 0.3, sentinelValueRatio: 0.1 };
@@ -84,7 +85,7 @@ function run(opts) {
   } else if (opts.db && opts.tables) {
     const allIssues = [];
     opts.tables.forEach(table => {
-      const cmd = `java -cp . scripts.DatabaseQuery --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --analyze-table ${table}`;
+      const cmd = `python database_query.py --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --analyze-table ${table}`;
       const out = execSync(cmd, { timeout: 120000, shell: true }).toString();
       const data = JSON.parse(out);
       const audit = convertAnalyzeToAudit(data, `bridge_${table}`);

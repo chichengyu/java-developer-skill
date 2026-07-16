@@ -23,6 +23,17 @@ Codex Java 工具技能包 — 涵盖 **MySQL 数据库深度分析** 和 **Java
 
 **两个技能既可独立安装，也可配合使用**。每个技能附带 9 个配套工具，每种工具均提供 Python / Node.js / Java 三种语言版本。
 
+### 配置优先级 vs 技术依赖
+
+| | 配置优先级（用户首选） | 技术依赖链 |
+|--|----------------------|-----------|
+| **Python** | 🥇 首选 | `database_query.py` → `pymysql` → **MySQL（零Java依赖）** |
+| **Node.js** | 🥈 次选 | `database-query.js` → `mysql2` → **MySQL（零Java依赖）** |
+| **Java** | 🥉 备选 | `DatabaseQuery.java` → JDBC → MySQL（需编译） |
+
+> ✅ **架构升级 v2**：Python 和 Node.js 已改用原生数据库驱动直连 MySQL，不再依赖 Java subprocess。`pip install pymysql` 或 `npm install mysql2` 后即可使用，无需安装 JDK、无需配置 classpath、无需编译 `.class` 文件。
+> Java 版本 `DatabaseQuery.java` 作为备选引擎保留，仅当需要使用 Java 专属功能（如 `--compare-entities` Java 实体对比）时编译加载。
+
 ---
 
 ## 依赖关系
@@ -53,14 +64,13 @@ flowchart TB
 
 ## 前置条件
 
-| 组件 | 版本要求 | 备注 |
-|------|---------|------|
-| Codex 桌面版 | v1.0+ | 必需 |
-| Java (JDK) | 17+ | `java-mysql-query` 需编译 DatabaseQuery.java |
-| Python | 3.8+ | 配套工具首选运行时 |
-| Node.js | 18+ | 配套工具次选运行时 |
-| MySQL 服务 | 5.7+ | 本地或远程均可 |
-| Git | 任意 | 克隆仓库用 |
+| 组件 | 版本要求 | 用途 | 必需性 |
+|------|---------|------|--------|
+| Python | 3.8+ | **首选运行时**，`pymysql` 直连 MySQL | **推荐（零Java依赖）** |
+| Node.js | 18+ | 次选运行时，`mysql2` 直连 MySQL | 可选 |
+| Java (JDK) | 17+ | 仅 Java 版 `DatabaseQuery.java` 需要编译 | 可选（备选引擎） |
+| MySQL 服务 | 5.7+ | 数据库 | 必需（本地或远程） |
+| Codex 桌面版 | v1.0+ | 技能加载 | 必需 |
 
 ---
 
@@ -73,11 +83,29 @@ xcopy /E /I /Y C:\a\java-developer-skill\skills\java-mysql-query %USERPROFILE%\.
 xcopy /E /I /Y C:\a\java-developer-skill\skills\java-superpowers-contract %USERPROFILE%\.codex\skills\java-superpowers-contract
 ```
 
-### 首次编译 DatabaseQuery.java
+### 日常使用：纯 Python 启动（零 Java 依赖）
+
+```bash
+# 1. 安装依赖（仅首次）
+pip install pymysql
+
+# 2. 直接使用，无需安装 Java、无需编译
+python database_query.py --db mydb --analyze-table user
+python erd_viewer.py --db mydb --output erd.html
+python table_dependency.py --db mydb --output deps.html
+
+# 3. Node.js 方式（二选一）
+npm install mysql2
+node database-query.js --db mydb --get-schema
+```
+
+### 仅 Java 引擎需要编译
+
+如果选择 Java 版本，需额外准备 JDK 17+ 和 MySQL JDBC 驱动：
 
 ```cmd
-cd %USERPROFILE%\.codex\skills\java-mysql-query\scripts
 javac -encoding utf8 DatabaseQuery.java
+java -cp .;mysql-connector-j-8.3.0.jar scripts.DatabaseQuery --db mydb --get-schema
 ```
 
 ### 验证安装
@@ -92,6 +120,9 @@ javac -encoding utf8 DatabaseQuery.java
 ## 1. java-mysql-query —— MySQL 数据库深度分析
 
 ### 核心工具
+
+> 💡 **日常操作全部通过 Python 包装器**：`python database_query.py --db mydb --analyze-table user`
+> 原始 Java 命令 `java -cp ... scripts.DatabaseQuery ...` 仅在一键安装、首次场景使用。
 
 | 命令 | 说明 | 增强内容 |
 |------|------|---------|
@@ -262,8 +293,14 @@ C:\a\java-developer-skill\
 
 ## 常见问题
 
-**Q: 找不到 JDBC 驱动？**  
-A: 运行 `java -cp scripts scripts.DatabaseQuery --install-driver` 自动下载安装。
+**Q: Python 需要安装什么依赖？**  
+A: 只需 `pip install pymysql`。无需安装 JDK、无需下载 JDBC 驱动、无需编译 `.class` 文件。
+
+**Q: Node.js 需要安装什么依赖？**  
+A: 只需 `npm install mysql2`。用法同 Python 版。
+
+**Q: Java 还需要吗？**  
+A: Java 作为备选引擎保留。仅当需要使用 `--compare-entities`（Java 实体对比）、或需嵌入现有 Java 生产环境时，才需要编译 DatabaseQuery.java。
 
 **Q: 每次都要输入密码？**  
 A: 首次使用 `--password` 后，密码自动加密保存到 `~/.java-mysql-query-config.json`，后续免输。
@@ -272,4 +309,4 @@ A: 首次使用 `--password` 后，密码自动加密保存到 `~/.java-mysql-qu
 A: 不必。可单独安装任一技能，配套工具各自独立完整。
 
 **Q: 三个语言版本怎么选？**  
-A: 优先 Python（启动快、原生 JSON 处理），Node.js 适合 Web 前端集成，Java 适合生产环境嵌入。
+A: 优先 Python（最快启动、pymysql 直连、最广泛支持），Node.js 适合 Web 前端集成，Java 适合生产环境嵌入。

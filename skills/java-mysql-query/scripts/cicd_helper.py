@@ -10,6 +10,7 @@ CI/CD 集成助手 (Python 版)
 """
 import json, sys, os, subprocess, argparse, datetime
 from pathlib import Path
+from database_query import MySQLQuery
 
 AUDIT_DIR = Path.home() / ".java-superpowers-audit"
 
@@ -23,15 +24,13 @@ def check_commit_message(msg):
 
 def run_quality_check(db_host, db_port, db_name, db_user, db_password, tables):
     results = {}
+    q = MySQLQuery(db_host, db_port, db_name, db_user, db_password)
+    q.connect()
     for table in tables:
-        cmd = ["java", "-cp", ".", "scripts.DatabaseQuery", "--host", db_host, "--port", str(db_port),
-               "--db", db_name, "--user", db_user]
-        if db_password: cmd.extend(["--password", db_password])
-        cmd.extend(["--analyze-table", table])
         try:
-            out = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-            data = json.loads(out.stdout) if out.stdout else {}
-            columns = data.get("analysis", {}).get("columns", [])
+            data = q.analyze_table(table)
+            analysis = data.get("analysis", {})
+            columns = analysis.get("columns", [])
             issues = []
             for col in columns:
                 wrn = col.get("warning")
@@ -39,6 +38,7 @@ def run_quality_check(db_host, db_port, db_name, db_user, db_password, tables):
             results[table] = {"columns": len(columns), "issues": issues, "issueCount": len(issues)}
         except Exception as e:
             results[table] = {"error": str(e)}
+    q.close()
     return results
 
 def main():

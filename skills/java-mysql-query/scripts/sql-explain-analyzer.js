@@ -4,8 +4,9 @@
  * 分析 MySQL 查询执行计划，识别性能瓶颈。
  * 用法: node sql-explain-analyzer.js --db mydb "SELECT * FROM user"
  */
-const { execSync } = require("child_process");
 const fs = require("fs");
+const { execSync } = require("child_process");
+const { MySQLQuery } = require("./database-query.js");
 
 function analyzeExplain(explainData) {
   const issues = [];
@@ -50,7 +51,7 @@ function run(opts) {
     return;
   }
   if (opts.sql) {
-    const cmd = `java -cp . scripts.DatabaseQuery --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --ssl ${opts.ssl} --explain "${opts.sql.replace(/"/g, '\\"')}"`;
+    const cmd = `python database_query.py --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --ssl ${opts.ssl} --explain "${opts.sql.replace(/"/g, '\\"')}"`;
     try {
       const out = execSync(cmd, { timeout: 30000, shell: true }).toString();
       console.log(JSON.stringify(JSON.parse(out), null, 2));

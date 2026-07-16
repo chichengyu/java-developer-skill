@@ -8,8 +8,9 @@ SQL Explain Analyzer (Python 版)
   python sql_explain_analyzer.py --host localhost --db mydb "SELECT * FROM user WHERE id = 1"
   python sql_explain_analyzer.py --input slow_query.log
 """
-import json, sys, subprocess, re, os, argparse
+import json, sys, re, os, argparse
 from pathlib import Path
+from database_query import MySQLQuery
 
 def analyze_explain_json(explain_data):
     issues = []
@@ -28,13 +29,11 @@ def analyze_explain_json(explain_data):
     return issues
 
 def run_explain(host, port, db, user, password, sql, ssl_mode):
-    url = f"jdbc:mysql://{host}:{port}/{db}?useSSL={ssl_mode}&allowPublicKeyRetrieval={'false' if ssl_mode=='true' else 'true'}"
-    cmd = ["java", "-cp", ".", "scripts.DatabaseQuery", "--host", host, "--port", str(port), "--db", db, "--user", user]
-    if password: cmd.extend(["--password", password])
-    if ssl_mode: cmd.extend(["--ssl", ssl_mode])
-    cmd.extend(["--explain", sql])
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-    return result.stdout
+    q = MySQLQuery(host, port, db, user, password, ssl_mode)
+    q.connect()
+    result = q.explain(sql)
+    q.close()
+    return result
 
 def main():
     parser = argparse.ArgumentParser(description="SQL Explain 查询计划分析器")
@@ -57,7 +56,7 @@ def main():
                     else: print("  状态: 正常")
     elif args.sql:
         out = run_explain(args.host, args.port, args.db, args.user, args.password, args.sql, args.ssl)
-        print(json.dumps(json.loads(out), ensure_ascii=False, indent=2))
+        print(json.dumps(out, ensure_ascii=False, indent=2))
     else:
         parser.print_help()
 if __name__ == "__main__": main()

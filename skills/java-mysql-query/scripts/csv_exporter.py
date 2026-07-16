@@ -7,7 +7,8 @@ CSV Exporter (Python 版)
   python csv_exporter.py --host localhost --db mydb "SELECT * FROM user" --output users.csv
   python csv_exporter.py --input result.json --output output.csv
 """
-import json, csv, sys, os, subprocess, argparse
+import json, csv, sys, os, argparse
+from database_query import MySQLQuery
 
 def export_csv(data, output_path):
     if not data: return 0
@@ -35,12 +36,11 @@ def main():
         count = export_csv(data, args.output)
         print(json.dumps({"status":"success","output":args.output,"rows":count}))
     elif args.sql:
-        cmd = ["java", "-cp", ".", "scripts.DatabaseQuery", "--host", args.host, "--port", str(args.port),
-               "--db", args.db, "--user", args.user, "--ssl", args.ssl]
-        if args.password: cmd.extend(["--password", args.password])
-        cmd.extend(["--export-csv", args.sql, "--output", args.output])
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-        print(result.stdout)
+        q = MySQLQuery(args.host, args.port, args.db, args.user, args.password, args.ssl)
+        q.connect()
+        result = q.export_csv(args.sql, args.output)
+        q.close()
+        print(json.dumps(result, ensure_ascii=False))
     else:
         parser.print_help()
 if __name__ == "__main__": main()

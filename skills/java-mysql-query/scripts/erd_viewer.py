@@ -8,8 +8,9 @@ ERD Viewer (Python 版)
   python erd_viewer.py --input relations.json             # 从已有JSON加载
   python erd_viewer.py --db mydb --output erd.html        # 保存到文件
 """
-import json, sys, os, subprocess, argparse, datetime
+import json, sys, os, argparse, datetime
 from pathlib import Path
+from database_query import MySQLQuery
 
 HTML_TEMPLATE = '''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -58,13 +59,11 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 RULE_MAP = {0: "RESTRICT", 1: "CASCADE", 2: "SET NULL", 3: "NO ACTION", 4: "SET DEFAULT"}
 
 def fetch_relations(host, port, db, user, password, ssl):
-    cmd = ["java", "-cp", ".;mysql-connector-j-8.3.0.jar", "scripts.DatabaseQuery",
-           "--host", host, "--port", str(port), "--db", db, "--user", user,
-           "--ssl", ssl]
-    if password: cmd.extend(["--password", password])
-    cmd.append("--get-relations")
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-    return json.loads(result.stdout)
+    q = MySQLQuery(host, port, db, user, password, ssl)
+    q.connect()
+    result = q.get_relations()
+    q.close()
+    return result
 
 def generate_html(relations_data, db_name):
     rels = relations_data.get("relations", [])

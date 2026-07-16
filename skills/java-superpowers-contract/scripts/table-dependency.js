@@ -4,8 +4,9 @@
  * 从外键约束构建表依赖关系图：拓扑层级、循环依赖检测、影响链分析、可视化HTML。
  * 用法: node table-dependency.js --db mydb --output deps.html
  */
-const { execSync } = require("child_process");
 const fs = require("fs");
+const { execSync } = require("child_process");
+const { MySQLQuery } = require("./database-query.js");
 const path = require("path");
 
 function buildGraph(relations) {
@@ -152,7 +153,7 @@ function run() {
     dbName = raw.database || opts.db || "unknown";
     relations = raw.relations || (Array.isArray(raw) ? raw : []);
   } else {
-    const cmd = `java -cp .;mysql-connector-j-8.3.0.jar scripts.DatabaseQuery --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --ssl ${opts.ssl} --get-relations`;
+    const cmd = `python database_query.py --host ${opts.host} --port ${opts.port} --db ${opts.db} --user ${opts.user}${opts.password ? " --password " + opts.password : ""} --ssl ${opts.ssl} --get-relations`;
     const out = execSync(cmd, { timeout: 60000, shell: true }).toString();
     raw = JSON.parse(out);
     dbName = opts.db;

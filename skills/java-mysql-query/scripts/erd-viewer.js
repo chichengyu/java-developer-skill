@@ -5,14 +5,15 @@
  * 用法: node erd-viewer.js --db mydb
  *       node erd-viewer.js --input relations.json --output erd.html
  */
-const { execSync } = require("child_process");
 const fs = require("fs");
+const { execSync } = require("child_process");
+const { MySQLQuery } = require("./database-query.js");
 const path = require("path");
 
 const RULE_MAP = { 0: "RESTRICT", 1: "CASCADE", 2: "SET NULL", 3: "NO ACTION", 4: "SET DEFAULT" };
 
 function fetchRelations(host, port, db, user, password) {
-  const cmd = `java -cp .;mysql-connector-j-8.3.0.jar scripts.DatabaseQuery --host ${host} --port ${port} --db ${db} --user ${user}${password ? " --password " + password : ""} --get-relations`;
+  const cmd = `python database_query.py --host ${host} --port ${port} --db ${db} --user ${user}${password ? " --password " + password : ""} --get-relations`;
   const out = execSync(cmd, { timeout: 60000, shell: true }).toString();
   return JSON.parse(out);
 }

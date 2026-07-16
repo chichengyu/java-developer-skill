@@ -5,8 +5,8 @@
  * 用法: node cicd-helper.js --check-commit-msg "feat(user): 新增接口"
  *       node cicd-helper.js --pre-commit-install
  */
-const { execSync } = require("child_process");
 const fs = require("fs");
+const { MySQLQuery } = require("./database-query.js");
 const path = require("path");
 
 function checkCommitMessage(msg) {
