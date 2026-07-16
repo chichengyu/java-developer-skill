@@ -93,32 +93,6 @@ xcopy /E /I /Y <REPO_DIR>\skills\token-economizer %USERPROFILE%\.codex\skills\to
 
 ## 依赖关系
 
-```mermaid
-flowchart TB
-    subgraph 技能套件
-        TE["token-economizer<br/>无感压缩输出"]
-        JSC["java-superpowers-contract<br/>研发现控"]
-        JMQ["java-mysql-query<br/>MySQL 深度分析"]
-    end
-
-    TE -->|"强制压缩输出<br/>（输出端叠加）"| JSC
-    TE -->|"强制压缩输出<br/>（输出端叠加）"| JMQ
-    JSC -->|"推荐配合<br/>（分析阶段可调用）"| JMQ
-
-    subgraph 共享工具层
-        direction LR
-        PY["Python 脚本<br/>database_query.py<br/>table_dependency.py<br/>..."]
-        JV["Java 实现<br/>DatabaseQuery.java<br/>TableDependency.java<br/>..."]
-        JS["Node.js 脚本<br/>database-query.js<br/>table-dependency.js<br/>..."]
-    end
-
-    JSC --- PY
-    JSC --- JV
-    JSC --- JS
-    JMQ --- PY
-    JMQ --- JV
-    JMQ --- JS
-```
 
 ### 技能链调用流程
 
@@ -153,6 +127,7 @@ sequenceDiagram
 | 功能 | 说明 | 一句话描述 |
 |------|------|-----------|
 | 表结构分析 | 自动输出 schema、字段类型、索引、约束 | 说话查数据库，自动输出完整表结构 |
+ | 凭据管理 | 首次输入连接凭据后自动保存到 ~/.java-mysql-query-config.json | 一次配置，永久使用 |
 | 表依赖关系图 | 基于外键构建表依赖拓扑（Mermaid 图表） | 说话查数据库，自动输出表依赖图 |
 | ER 图 | 实体关系可视化 | 说话查数据库，自动输出 ERD |
 | 数据质量评估 | 三指标：NULL 率、空串率、哨兵值率 | 说话查数据库，自动输出深度分析报告 |
@@ -162,6 +137,8 @@ sequenceDiagram
 | 需求分析 | 结合业务需求给出数据模型建议 | 说话查数据库，自动输出分析报告 |
 
 **入口：** `scripts/database_query.py`（三语言实现：Python / Node.js / Java）
+
+完整命令参考：[java-mysql-query](https://github.com/chichengyu/java-developer-skill/blob/main/skills/java-mysql-query/SKILL.md)
 
 ---
 
@@ -182,6 +159,8 @@ sequenceDiagram
 | DDL 强制 rollback | 数据库结构变更自动生成回滚脚本 |
 | 安全审查 | SQL 注入检测、密钥硬编码检查、API 兼容性检查 |
 | 执行审计 | 每次回复附带【执行审计】报告 |
+
+完整命令参考：[java-superpowers-contract](https://github.com/chichengyu/java-developer-skill/blob/main/skills/java-superpowers-contract/SKILL.md)
 
 
 
@@ -205,11 +184,21 @@ sequenceDiagram
 
 **依赖：** 零外部依赖，纯指令契约，在输出端对前两者叠加压缩。
 
+完整命令参考：[token-economizer](https://github.com/chichengyu/java-developer-skill/blob/main/skills/token-economizer/SKILL.md)
+
 ---
 
-三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
 
-完整命令参考：[java-mysql-query](skills/java-mysql-query/SKILL.md) / [java-superpowers-contract](skills/java-superpowers-contract/SKILL.md) / [token-economizer](skills/token-economizer/SKILL.md)
+```mermaid
+flowchart TB
+    subgraph 技能套件
+        TE["token-economizer<br/>无感压缩输出"]
+        JSC["java-superpowers-contract<br/>研发现控"]
+        JMQ["java-mysql-query<br/>MySQL 深度分析"]
+    end
+```
+
+三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
 
 
 
