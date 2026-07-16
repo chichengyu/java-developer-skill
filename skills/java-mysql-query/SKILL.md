@@ -1,4 +1,4 @@
-﻿---
+---
 name: java-mysql-query
 description: 本地 Java + MySQL 数据库查询与分析工具。支持自然语言查询、统计表结构、深度分析数据分布、外键关系拓扑、数据质量三指标评估、Java 实体类对比和 PR 报告生成。可选配合 Superpowers 技能链提升分析效率。
 ---
