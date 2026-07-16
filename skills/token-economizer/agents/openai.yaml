@@ -1,0 +1,70 @@
+interface:
+  display_name: "Token 精约器 v3"
+  short_description: "通用 Token 精约与响应压缩引擎，自动强制启用极简输出模式，最大化减少 Token 消耗。支持 Java 特化压缩、自检门禁、跨技能叠加集成"
+  default_prompt: "自动加载 Token 精约器规则（v3）：以最高压缩比执行本次任务，Java 特化压缩已就绪"
+
+  # 触发条件 — 以下任一项匹配即自动激活本契约
+  trigger:
+    event_types:
+      - pre_response     # 每次响应前自动注入
+    conditions:
+      - always           # 无条件、全场景自动加载
+
+  # 响应结构规范
+  response_format:
+    compress_narrative: true        # 叙述层强制压缩
+    priority_rules:
+      - order: 1                    # 最高优先级——高于所有其他技能
+        principle: "所有技能输出端叠加压缩，不干扰技能逻辑层"
+    narrative_budget:
+      single_file_edit: 0           # 单文件修改零叙述
+      multi_file_edit: 1            # 多文件修改 1 行概括
+      bug_fix: 1                    # Bug 修复 1 行
+      code_review: 3                # 代码审查 3 行
+      analysis_report: 5            # 分析报告 5 行
+      architecture: 3               # 架构建议 3 行
+      documentation: 8              # 文档生成 8 行
+      teaching: 10                  # 教学解释 10 行
+
+  # 集成兄弟技能
+  skill_integration:
+    - java-mysql-query: "输出端压缩，不影响数据库查询逻辑"
+    - java-superpowers-contract: "输出端压缩，审计块除外"
+
+  # Java 特化模式
+  java_compression:
+    enabled: true
+    annotation_shortform: true      # @Transactional 不解释
+    method_signature_compact: true  # Page<UserDTO> searchUsers(Pageable, String)
+    exception_abbrev: true          # IAE/ISE/NPE
+    orm_reference: "<mapper>#<selectId> | <Entity>Repository::<method>"
+
+  # 质量门禁
+  quality_gate:
+    self_check: [
+      "no_fluff: R1 zero-fluff check",
+      "budget_check: R7 narrative line count",
+      "format_optimize: R12 table/single-line check",
+      "context_prune: R9 deduplication check"
+    ]
+    compression_report:
+      mode: "auto"                   # 压缩率 >90% 省略报告
+      format: "[压缩: XX → YY (ZZ%)]"
+
+  # 引用示例
+  examples:
+    - task: "单文件修改"
+      input: "修复 UserController.java 第42行 NPE"
+      output: "UserController.java:42 + if (email == null) return;"
+    - task: "代码审查"
+      input: "审查 OrderController.java"
+      output: "[1] OrderController.java:32 @Autowired → 构造器注入\n[2] OrderController.java:67 缺 @Transactional"
+    - task: "Java 注解引用"
+      input: "给 login 方法加事务"
+      output: "UserService.login() + @Transactional"
+    - task: "架构建议"
+      input: "能否用缓存优化性能？"
+      output: "建议: Service → @Cacheable → Redis\n+ 降低 DB 60-80%\n! 处理穿透/雪崩/失效"
+    - task: "多技能场景"
+      scenario: "与 java-mysql-query 同加载"
+      output: "执行 `database_query --analyze-table user` → 输出只保留表格结论和压缩率报告"
