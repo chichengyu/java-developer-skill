@@ -26,44 +26,27 @@
 
 ```
 java-developer-skill/
-+-- README.md                          # 项目说明（本文档）
-+-- LICENSE                            # MIT 许可协议
-+-- .gitattributes                     # Git 属性配置
-+-- .gitignore                         # Git 忽略规则
-|
++-- README.md
++-- LICENSE
++-- .gitattributes
++-- .gitignore
 +-- skills/
 |   +-- java-mysql-query/              # MySQL 深度查询与分析
-|   |   +-- SKILL.md                   #   技能说明书
+|   |   +-- SKILL.md
 |   |   +-- agents/
-|   |   |   +-- openai.yaml            #   Agent 配置
-|   |   +-- references/
-|   |   |   +-- .gitkeep
-|   |   +-- scripts/                   #   三语言工具脚本
-|   |       +-- database_query.py      +   database-query.js      +   DatabaseQuery.java
-|   |       +-- table_dependency.py    +   table-dependency.js    +   TableDependency.java
-|   |       +-- erd_viewer.py          +   erd-viewer.js          +   ErdViewer.java
-|   |       +-- sql_explain_analyzer.py+   sql-explain-analyzer.js+   SqlExplainAnalyzer.java
-|   |       +-- audit_report_generator.py  +   ...  .java/.js
-|   |       +-- csv_exporter.py        +   csv-exporter.js        +   CsvExporter.java
-|   |       +-- cicd_helper.py         +   cicd-helper.js         +   CicdHelper.java
-|   |       +-- req_analyzer.py        +   req-analyzer.js        +   ReqAnalyzer.java
-|   |       +-- skill_bridge.py        +   skill-bridge.js        +   SkillBridge.java
-|   |
+|   |   |   +-- openai.yaml
+|   |   +-- scripts/                   # 三语言工具脚本（9 组）
 |   +-- java-superpowers-contract/     # Java 研发现控契约
-|   |   +-- SKILL.md                   #   技能说明书
+|   |   +-- SKILL.md
 |   |   +-- agents/
-|   |   |   +-- openai.yaml            #   Agent 配置
-|   |   +-- references/
-|   |   |   +-- .gitkeep
-|   |   +-- scripts/                   #   三语言工具脚本
-|   |       +-- (同 java-mysql-query/scripts/ 的 9 组三语言脚本)
-|   |
+|   |   |   +-- openai.yaml
+|   |   +-- scripts/                   # 三语言工具脚本（9 组）
 |   +-- token-economizer/              # Token 输出压缩器
-|       +-- SKILL.md                   #   技能说明书
+|       +-- SKILL.md
 |       +-- agents/
-|       |   +-- openai.yaml            #   Agent 配置
+|       |   +-- openai.yaml
 |       +-- references/
-|           +-- compression-patterns.md # 压缩模式参考
+|           +-- compression-patterns.md
 ```
 
 ---
@@ -199,7 +182,6 @@ flowchart TB
 ```
 
 三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
-
 
 
 
