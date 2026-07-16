@@ -32,21 +32,8 @@ java-developer-skill/
 +-- .gitignore
 +-- skills/
 |   +-- java-mysql-query/              # MySQL 深度查询与分析
-|   |   +-- SKILL.md
-|   |   +-- agents/
-|   |   |   +-- openai.yaml
-|   |   +-- scripts/                   # 三语言工具脚本（9 组）
 |   +-- java-superpowers-contract/     # Java 研发现控契约
-|   |   +-- SKILL.md
-|   |   +-- agents/
-|   |   |   +-- openai.yaml
-|   |   +-- scripts/                   # 三语言工具脚本（9 组）
 |   +-- token-economizer/              # Token 输出压缩器
-|       +-- SKILL.md
-|       +-- agents/
-|       |   +-- openai.yaml
-|       +-- references/
-|           +-- compression-patterns.md
 ```
 
 ---
@@ -182,6 +169,5 @@ flowchart TB
 ```
 
 三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
-
 
 
