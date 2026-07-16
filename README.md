@@ -168,7 +168,7 @@ java -cp .;mysql-connector-j-8.3.0.jar scripts.DatabaseQuery --db mydb --get-sch
 
 ## 2. java-superpowers-contract —— Java 研发现控契约
 
-**15 个章节的完整管控契约**，加载后自动激活以下规则：
+**9 个章节的精简管控契约**（优化前 404 行 → 76 行），加载后自动激活以下规则：
 
 | 章节 | 内容 |
 |------|------|
