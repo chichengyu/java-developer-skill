@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * DatabaseQuery — 纯 Node.js 实现，零 Java 依赖
  * 直接通过 mysql2 连接 MySQL，实现全部数据库深度分析功能。

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * Table Dependency Analyzer (Node.js 版)
  * 从外键约束构建表依赖关系图：拓扑层级、循环依赖检测、影响链分析、可视化HTML。

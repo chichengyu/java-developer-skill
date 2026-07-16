@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * Java + Superpowers 审计报告生成器 (Node.js 版)
  * ============================================

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * ReqAnalyzer — 需求深度分析器 (Node.js 版)
  * 对应契约第6节（两阶段工作流）+ 需求深度分析框架。

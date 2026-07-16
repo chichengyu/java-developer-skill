@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * CSV Exporter (Node.js 版)
  * 将 SQL 查询结果导出为 CSV 文件。

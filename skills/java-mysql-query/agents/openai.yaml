@@ -1,4 +1,4 @@
-﻿interface:
+interface:
   display_name: "Java + MySQL 数据库查询与分析"
   short_description: "Java 编写的 MySQL 数据库查询分析工具，支持自然语言查询、表分析、实体对比与 PR 报告"
   default_prompt: "使用 java-mysql-query 连接到本地 MySQL 数据库，执行数据库查询、表分析、实体对比或 PR 报告生成"

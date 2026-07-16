@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * ERD Viewer (Node.js 版)
  * 从 DatabaseQuery --get-relations 输出生成可视化关系图 HTML。

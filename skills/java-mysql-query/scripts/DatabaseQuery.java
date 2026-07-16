@@ -1,4 +1,4 @@
-﻿package scripts;
+package scripts;
 // ⚠️ 本文件使用 UTF-8 编码，编译时请加 -encoding utf8 参数
 
 import java.sql.*;

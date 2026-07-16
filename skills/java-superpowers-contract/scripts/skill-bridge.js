@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * Skill Bridge (Node.js 版)
  * 连接 java-mysql-query 与 java-superpowers-contract 的桥接工具。

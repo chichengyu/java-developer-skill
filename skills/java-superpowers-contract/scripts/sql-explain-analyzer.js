@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * SQL Explain Analyzer (Node.js 版)
  * 分析 MySQL 查询执行计划，识别性能瓶颈。

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * CI/CD 集成助手 (Node.js 版)
  * 自动化审计：校验Git提交信息，运行数据质量检查，生成审计报告。

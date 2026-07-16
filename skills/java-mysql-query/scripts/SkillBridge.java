@@ -1,4 +1,4 @@
-﻿package scripts;
+package scripts;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
