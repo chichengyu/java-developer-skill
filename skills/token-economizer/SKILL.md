@@ -1,4 +1,4 @@
-﻿---
+---
 name: token-economizer
 enforce: true
 enforce_priority: system
