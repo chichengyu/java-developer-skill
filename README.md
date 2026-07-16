@@ -135,7 +135,7 @@ xcopy /E /I /Y <REPO_DIR>\skills\token-economizer %USERPROFILE%\.codex\skills\to
 **方式二：对话安装（复制给 Codex）**
 
 ```
-帮我安装 java-mysql-query、java-superpowers-contract 和 token-economizer 技能到 ~/.codex/skills/ 目录下
+帮我从仓库 C:\a\java-developer-skill 安装 java-mysql-query、java-superpowers-contract 和 token-economizer 技能到 ~/.codex/skills/ 目录下
 ```
 
 ---
