@@ -104,6 +104,15 @@ sequenceDiagram
 
 **核心能力：** 纯 Python 多数据库统一分析工具，支持 13+ 数据库引擎，零 Java 依赖。
 
+**支持的数据库：**
+
+| 类型 | 数据库 |
+|------|--------|
+| SQL | MySQL / MariaDB / PostgreSQL / SQLite / SQL Server / Oracle / TiDB |
+| NoSQL | Redis / Elasticsearch / MongoDB |
+| 时序 | InfluxDB / TDengine |
+| 向量 | Qdrant / Milvus / DolphinDB |
+
 功能清单：
 
 | 功能 | 说明 | 适用范围 |
@@ -120,24 +129,6 @@ sequenceDiagram
 | 原生查询 | 直接执行原生 SQL / 命令 | 所有引擎 |
 
 **入口：** `scripts/database_query.py`（纯 Python 实现，统一 CLI 接口）
-
-**使用示例：**
-```bash
-# MySQL
-python scripts/database_query.py --db-type mysql --db mydb --get-schema
-
-# PostgreSQL 全库分析
-python scripts/database_query.py --db-type postgresql --db mydb --analyze-all
-
-# SQLite 单表分析
-python scripts/database_query.py --db-type sqlite --db mydb.db --analyze-table user
-
-# Redis 全量分析
-python scripts/database_query.py --db-type redis --host localhost --db 0 --analyze-all
-
-# Elasticsearch Schema 扫描
-python scripts/database_query.py --db-type elasticsearch --host localhost --get-schema
-```
 
 完整命令参考：[multi-db-analyzer](https://github.com/chichengyu/java-developer-skill/blob/main/skills/multi-db-analyzer/SKILL.md)
 
