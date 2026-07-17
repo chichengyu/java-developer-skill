@@ -89,7 +89,7 @@ def main():
     parser.add_argument("--entity-path", default=".")
     parser.add_argument("--output","-o")
     parser.add_argument("--save-config", action="store_true")
-   parser.add_argument("--clear-config", action="store_true")
+    parser.add_argument("--clear-config", action="store_true")
     parser.add_argument("--profile", help="Use a saved profile (from ~/.multi-db-analyzer/profiles.json)")
     parser.add_argument("--save-profile", help="Save current connection as a named profile")
     parser.add_argument("--list-profiles", action="store_true", help="List all saved profiles")
