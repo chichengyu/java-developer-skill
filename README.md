@@ -14,7 +14,7 @@
 
 | 技能 | 角色 | 关键能力 |
 |------|------|----------|
-| **multi-db-analyzer** | 多数据库深度分析师 | 13+ 数据库引擎统一分析：Schema、数据质量、FK拓扑、执行计划 |
+| **multi-db-analyzer** | 多数据库深度分析师 | 15+ 数据库引擎统一分析：Schema、数据质量、FK拓扑、执行计划 |
 | **java-superpowers-contract** | 研发现控官 | Git worktree 隔离、四层分析契约、强制审计 |
 | **token-economizer** | 输出压缩师 | 无感压缩 Codex 输出，降低 Token 消耗 |
 
@@ -102,7 +102,7 @@ sequenceDiagram
 
 ### multi-db-analyzer — 多数据库深度查询与分析
 
-**核心能力：** 纯 Python 多数据库统一分析工具，支持 13+ 数据库引擎，零 Java 依赖。
+**核心能力：** 纯 Python 多数据库统一分析工具，支持 15+ 数据库引擎，零 Java 依赖。
 
 **支持的数据库：**
 
