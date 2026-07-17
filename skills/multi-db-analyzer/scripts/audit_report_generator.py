@@ -24,10 +24,12 @@ import sys
 import os
 import argparse
 import datetime
+import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 
 # ========== 配置管理 ==========
-CONFIG_DIR = Path.home() / ".java-superpowers-audit"
+CONFIG_DIR = Path.home() / ".multi-db-analyzer-audit"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 HISTORY_FILE = CONFIG_DIR / "audit_history.jsonl"
 
@@ -140,8 +142,8 @@ def generate_sample_audit_data():
         "timestamp": datetime.datetime.now().isoformat(),
         "title": "示例审计报告",
         "skills": [
-            "java-superpowers-contract [已有]",
-            "audit-engine [已有]",
+            "audit-report-generator [已有]",
+            "multi-db-analyzer [已有]",
             "Brainstorming & Planning [已有]",
         ],
         "tools": ["fetch_codebase_ctx", "analyze_dependencies", "DatabaseQuery"],
@@ -363,7 +365,7 @@ def password_quoting_guide():
              "example": 'java -cp .;mysql-connector.jar scripts.DatabaseQuery --password "myP@ssw0rd!2024" --get-schema'},
             {"method": "环境变量法(推荐)", "desc": "通过环境变量传入避免shell解释",
              "example": '$env:DB_PASSWORD = "fT85{6M6mx!+ro(r1_Nw9qU.1q1(#Dny"\njava -cp .;mysql-connector.jar scripts.DatabaseQuery --get-schema'},
-         {"method": "配置文件法(最安全)", "desc": "密码保存在~/.java-superpowers-config.json",
+            {"method": "配置文件法(最安全)", "desc": "密码保存在~/.multi-db-analyzer-config.json",
              "example": "后续无需再传入密码参数"},
         ],
     }, ensure_ascii=False, indent=2)

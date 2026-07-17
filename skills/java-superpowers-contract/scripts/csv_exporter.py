@@ -7,8 +7,16 @@ CSV Exporter (Python 版)
   python csv_exporter.py --host localhost --db mydb "SELECT * FROM user" --output users.csv
   python csv_exporter.py --input result.json --output output.csv
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import json, csv, sys, os, argparse
-from database_query import MySQLQuery
+try:
+    from database_query import MySQLQuery
+except ImportError:
+    print("错误：缺少 pymysql 依赖。请执行: pip install -r requirements.txt")
+    sys.exit(1)
 
 def export_csv(data, output_path):
     if not data: return 0
@@ -44,3 +52,4 @@ def main():
     else:
         parser.print_help()
 if __name__ == "__main__": main()
+

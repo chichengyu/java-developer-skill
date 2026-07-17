@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DatabaseQuery — 纯 Python 实现，零 Java 依赖
-直接通过 pymysql 连接 MySQL，实现全部数据库深度分析功能。
-配置优先级：Python > Node.js > Java（Python 不再需要 Java 作底层引擎）
+DatabaseQuery — pure Python MySQL query & analysis tool.
+Zero Java dependency. Direct pymysql connection for full MySQL deep analysis.
 
 用法：
   python database_query.py --db mydb --get-schema
@@ -23,7 +22,7 @@ except ImportError:
     print(json.dumps({"status":"error","message":"需要安装 pymysql: pip install pymysql"}))
     sys.exit(1)
 
-CONFIG_PATH = Path.home() / ".java-mysql-query-config.json"
+CONFIG_PATH = Path.home() / ".java-superpowers-config.json"
 SENTINEL_VALUES = {"0","-1","1900-01-01","1970-01-01","9999-12-31","-9999",""}
 
 
@@ -449,3 +448,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+def main():

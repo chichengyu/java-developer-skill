@@ -8,9 +8,17 @@ SQL Explain Analyzer (Python 版)
   python sql_explain_analyzer.py --host localhost --db mydb "SELECT * FROM user WHERE id = 1"
   python sql_explain_analyzer.py --input slow_query.log
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import json, sys, re, os, argparse
 from pathlib import Path
-from database_query import MySQLQuery
+try:
+    from database_query import MySQLQuery
+except ImportError:
+    print("错误：缺少 pymysql 依赖。请执行: pip install -r requirements.txt")
+    sys.exit(1)
 
 def analyze_explain_json(explain_data):
     issues = []
@@ -60,3 +68,4 @@ def main():
     else:
         parser.print_help()
 if __name__ == "__main__": main()
+

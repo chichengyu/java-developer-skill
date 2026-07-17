@@ -8,10 +8,18 @@ Table Dependency Analyzer (Python 版)
   python table_dependency.py --input relations.json         # 从JSON加载
   python table_dependency.py --db mydb --output deps.html   # 输出HTML
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import json, sys, os, argparse
 from collections import defaultdict, deque
 from pathlib import Path
-from database_query import MySQLQuery
+try:
+    from database_query import MySQLQuery
+except ImportError:
+    print("错误：缺少 pymysql 依赖。请执行: pip install -r requirements.txt")
+    sys.exit(1)
 
 HTML_TEMPLATE = '''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -273,3 +281,4 @@ def main():
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__": main()
+

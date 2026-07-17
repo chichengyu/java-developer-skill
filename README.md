@@ -14,7 +14,7 @@
 
 | 技能 | 角色 | 关键能力 |
 |------|------|----------|
-| **java-mysql-query** | MySQL 深度分析师 | 自然语言查表结构、ER 图、数据质量、SQL 优化 |
+| **multi-db-analyzer** | 多数据库深度分析师 | 13+ 数据库引擎统一分析：Schema、数据质量、FK拓扑、执行计划 |
 | **java-superpowers-contract** | 研发现控官 | Git worktree 隔离、四层分析契约、强制审计 |
 | **token-economizer** | 输出压缩师 | 无感压缩 Codex 输出，降低 Token 消耗 |
 
@@ -31,7 +31,7 @@ java-developer-skill/
 +-- .gitattributes
 +-- .gitignore
 +-- skills/
-|   +-- java-mysql-query/              # MySQL 深度查询与分析
+|   +-- multi-db-analyzer/              # 多数据库深度查询与分析
 |   +-- java-superpowers-contract/     # Java 研发现控契约
 |   +-- token-economizer/              # Token 输出压缩器
 ```
@@ -44,19 +44,31 @@ java-developer-skill/
 
 ```cmd
 :: 将 <REPO_DIR> 替换为你本地仓库的实际路径
-xcopy /E /I /Y <REPO_DIR>\skills\java-mysql-query %USERPROFILE%\.codex\skills\java-mysql-query
+xcopy /E /I /Y <REPO_DIR>\skills\multi-db-analyzer %USERPROFILE%\.codex\skills\multi-db-analyzer
 xcopy /E /I /Y <REPO_DIR>\skills\java-superpowers-contract %USERPROFILE%\.codex\skills\java-superpowers-contract
 xcopy /E /I /Y <REPO_DIR>\skills\token-economizer %USERPROFILE%\.codex\skills\token-economizer
 ```
 
-安装 Python 依赖：`pip install pymysql`
+安装 Python 依赖（按需选装）：
+```cmd
+pip install pymysql           # MySQL / MariaDB / TiDB
+pip install psycopg2-binary   # PostgreSQL
+pip install pymssql           # SQL Server
+pip install oracledb          # Oracle
+pip install redis             # Redis
+pip install elasticsearch     # Elasticsearch
+pip install pymongo           # MongoDB
+pip install influxdb-client   # InfluxDB
+pip install qdrant-client     # Qdrant
+# SQLite 为内置驱动，无需安装
+```
 
-重启 Codex，输入 `"帮我连接到本地 MySQL"` 验证。
+重启 Codex，输入 `"帮我分析数据库"` 验证。
 
 **方式二：对话安装（复制给 Codex）**
 
 ```
-帮我从仓库 [chichengyu/java-developer-skill](https://github.com/chichengyu/java-developer-skill) 安装 java-mysql-query、java-superpowers-contract 和 token-economizer 技能到 ~/.codex/skills/ 目录下
+帮我从仓库 [chichengyu/java-developer-skill](https://github.com/chichengyu/java-developer-skill) 安装 multi-db-analyzer、java-superpowers-contract 和 token-economizer 技能到 ~/.codex/skills/ 目录下
 ```
 
 ---
@@ -71,14 +83,14 @@ sequenceDiagram
     participant Dev as 开发者
     participant Codex as Codex Agent
     participant JSC as java-superpowers-contract
-    participant JMQ as java-mysql-query
+    participant MDA as multi-db-analyzer
     participant TE as token-economizer
 
     Dev->>Codex: 发起 Java 开发任务
     Codex->>JSC: 1. 激活研发现控契约<br/>两阶段工作流
     JSC-->>Codex: 分析阶段完成
-    Codex->>JMQ: 2. 按需查询 MySQL<br/>表结构 / ER 图 / 数据质量
-    JMQ-->>Codex: 分析结果返回
+    Codex->>MDA: 2. 按需分析数据库<br/>Schema / 数据质量 / FK 拓扑 / 执行计划
+    MDA-->>Codex: 分析结果返回
     Codex->>TE: 3. 输出端无感压缩
     TE-->>Codex: 压缩后回复
     Codex-->>Dev: 交付结果 + 【执行审计】
@@ -88,27 +100,46 @@ sequenceDiagram
 
 ## 技能功能
 
-### java-mysql-query — MySQL 深度查询与分析
+### multi-db-analyzer — 多数据库深度查询与分析
 
-**核心能力：** 通过自然语言完成 MySQL 数据库的全链路分析。
+**核心能力：** 纯 Python 多数据库统一分析工具，支持 13+ 数据库引擎，零 Java 依赖。
 
 功能清单：
 
-| 功能 | 说明 | 一句话描述 |
-|------|------|-----------|
-| 表结构分析 | 自动输出 schema、字段类型、索引、约束 | 说话查数据库，自动输出完整表结构 |
- | 凭据管理 | 首次输入连接凭据后自动保存到 ~/.java-mysql-query-config.json | 一次配置，永久使用 |
-| 表依赖关系图 | 基于外键构建表依赖拓扑（Mermaid 图表） | 说话查数据库，自动输出表依赖图 |
-| ER 图 | 实体关系可视化 | 说话查数据库，自动输出 ERD |
-| 数据质量评估 | 三指标：NULL 率、空串率、哨兵值率 | 说话查数据库，自动输出深度分析报告 |
-| SQL EXPLAIN 分析 | 执行计划解读与优化建议 | 说话查数据库，自动输出 SQL 优化建议 |
-| CSV 导出 | 查询结果导出为 CSV 文件 | 说话查数据库，自动导出为 CSV |
-| Java 实体对比 | 对比数据库表与现有 Java 实体类的字段一致性 | 说话查数据库，自动输出实体对比 |
-| 需求分析 | 结合业务需求给出数据模型建议 | 说话查数据库，自动输出分析报告 |
+| 功能 | 说明 | 适用范围 |
+|------|------|----------|
+| Schema 扫描 | 列出所有表/索引/集合及元数据 | 所有引擎 |
+| 数据质量分析 | NULL 率、空串率、哨兵值率三指标 | SQL 引擎 |
+| FK 拓扑 | 基于外键构建表依赖关系图 | SQL + MongoDB |
+| 表依赖图 | 表间依赖拓扑可视化 | SQL 引擎 |
+| 执行计划分析 | EXPLAIN 解读与优化建议 | SQL 引擎 |
+| CSV 导出 | 查询结果导出为 CSV | SQL 引擎 |
+| PR 报告 | 带快照的变更报告 | SQL 引擎 |
+| Java 实体对比 | 对比数据库表与 Java 实体类的字段一致性 | SQL 引擎 |
+| 凭据管理 | 首次连接后自动保存到 ~/.multi-db-analyzer-config.json | 所有引擎 |
+| 原生查询 | 直接执行原生 SQL / 命令 | 所有引擎 |
 
-**入口：** `scripts/database_query.py`（三语言实现：Python / Node.js / Java）
+**入口：** `scripts/database_query.py`（纯 Python 实现，统一 CLI 接口）
 
-完整命令参考：[java-mysql-query](https://github.com/chichengyu/java-developer-skill/blob/main/skills/java-mysql-query/SKILL.md)
+**使用示例：**
+```bash
+# MySQL
+python scripts/database_query.py --db-type mysql --db mydb --get-schema
+
+# PostgreSQL 全库分析
+python scripts/database_query.py --db-type postgresql --db mydb --analyze-all
+
+# SQLite 单表分析
+python scripts/database_query.py --db-type sqlite --db mydb.db --analyze-table user
+
+# Redis 全量分析
+python scripts/database_query.py --db-type redis --host localhost --db 0 --analyze-all
+
+# Elasticsearch Schema 扫描
+python scripts/database_query.py --db-type elasticsearch --host localhost --get-schema
+```
+
+完整命令参考：[multi-db-analyzer](https://github.com/chichengyu/java-developer-skill/blob/main/skills/multi-db-analyzer/SKILL.md)
 
 ---
 
@@ -164,10 +195,10 @@ flowchart TB
     subgraph 技能套件
         TE["token-economizer<br/>无感压缩输出"]
         JSC["java-superpowers-contract<br/>研发现控"]
-        JMQ["java-mysql-query<br/>MySQL 深度分析"]
+        MDA["multi-db-analyzer<br/>多数据库深度分析"]
     end
 ```
 
-三者可独立安装。`java-mysql-query` 和 `java-superpowers-contract` 共享 9 套三语言工具，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
+三者可独立安装。`multi-db-analyzer` 为纯 Python 实现，`java-superpowers-contract` 附带三语言工具链，`token-economizer` 为纯指令契约零依赖，在输出端对前两者叠加压缩。
 
 

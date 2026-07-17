@@ -8,9 +8,17 @@ ERD Viewer (Python 版)
   python erd_viewer.py --input relations.json             # 从已有JSON加载
   python erd_viewer.py --db mydb --output erd.html        # 保存到文件
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import json, sys, os, argparse, datetime
 from pathlib import Path
-from database_query import MySQLQuery
+try:
+    from database_query import MySQLQuery
+except ImportError:
+    print("错误：缺少 pymysql 依赖。请执行: pip install -r requirements.txt")
+    sys.exit(1)
 
 HTML_TEMPLATE = '''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -117,3 +125,4 @@ def main():
     print(json.dumps({"status":"success","output":args.output,"relations_count":len(data.get("relations",[]))}))
 
 if __name__ == "__main__": main()
+

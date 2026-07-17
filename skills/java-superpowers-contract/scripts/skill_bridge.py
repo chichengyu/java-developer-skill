@@ -2,15 +2,24 @@
 # -*- coding: utf-8 -*-
 """
 Skill Bridge (Python 版)
-连接 java-mysql-query 与 java-superpowers-contract 的桥接工具：
+DatabaseQuery 与审计报告生成器的桥接工具：
 将 DatabaseQuery 输出自动转换为审计报告生成器输入。
 用法：
   python skill_bridge.py --analyze-result analyze_result.json --audit-output audit_input.json
   python skill_bridge.py --db mydb --tables user order --audit-format markdown --output combined_report.md
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+_SCRIPT_DIR = Path(__file__).resolve().parent
+
 import json, sys, os, argparse, datetime
 from pathlib import Path
-from database_query import MySQLQuery
+try:
+    from database_query import MySQLQuery
+except ImportError:
+    print("错误：缺少 pymysql 依赖。请执行: pip install -r requirements.txt")
+    sys.exit(1)
 
 QUALITY_WARN_THRESHOLDS = {"nullRatio": 0.2, "emptyStringRatio": 0.3, "sentinelValueRatio": 0.1}
 
@@ -50,7 +59,7 @@ def convert_analyze_to_audit(analyze_data, session_id=None, skills=None, tools=N
         "sessionId": session_id or f"bridge_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}",
         "timestamp": datetime.datetime.now().isoformat(),
         "title": f"数据质量审计 - {table_name}",
-        "skills": skills or ["java-mysql-query [已有]", "java-superpowers-contract [已有]"],
+        "skills": skills or ["DatabaseQuery [已有]", "java-superpowers-contract [已有]"],
         "tools": tools or ["DatabaseQuery", "SkillBridge"],
         "filesRead": [], "filesModified": [], "sqlExecuted": [],
         "dataQualityIssues": quality_issues,
@@ -79,7 +88,7 @@ def main():
             json.dump(audit_data, f, ensure_ascii=False, indent=2)
         # 运行时生成报告
         report_path = f"{args.output}.{args.audit_format}"
-        subprocess.run(["python3", "scripts/audit_report_generator.py", "--input", args.audit_output,
+        subprocess.run(["python", str(_SCRIPT_DIR / "audit_report_generator.py"), "--input", args.audit_output,
                        "--format", args.audit_format, "--output", report_path])
         print(json.dumps({"status":"success","audit_data":args.audit_output,"report":report_path}))
     elif args.db and args.tables:
@@ -96,7 +105,7 @@ def main():
             "sessionId": f"bridge_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}",
             "timestamp": datetime.datetime.now().isoformat(),
             "title": f"数据质量审计 - {', '.join(args.tables)}",
-            "skills": ["java-mysql-query [已有]", "java-superpowers-contract [已有]"],
+            "skills": ["DatabaseQuery [已有]", "java-superpowers-contract [已有]"],
             "tools": ["DatabaseQuery", "SkillBridge"],
             "filesRead": [], "filesModified": [], "sqlExecuted": [],
             "dataQualityIssues": all_issues,
@@ -107,9 +116,12 @@ def main():
         with open(args.audit_output, "w") as f:
             json.dump(combined_audit, f, ensure_ascii=False, indent=2)
         report_path = f"{args.output}.{args.audit_format}"
-        subprocess.run(["python3", "scripts/audit_report_generator.py", "--input", args.audit_output,
+        subprocess.run(["python", str(_SCRIPT_DIR / "audit_report_generator.py"), "--input", args.audit_output,
                        "--format", args.audit_format, "--output", report_path])
         print(json.dumps({"status":"success","tables":args.tables,"issues":len(all_issues),"report":report_path}))
     else:
         parser.print_help()
 if __name__ == "__main__": main()
+
+
+

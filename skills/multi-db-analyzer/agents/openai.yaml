@@ -1,0 +1,75 @@
+interface:
+  display_name: "Multi-DB Query & Analysis"
+  short_description: "Pure Python multi-database query/analysis: MySQL, PostgreSQL, SQLite, SQL Server, Oracle. Schema scanning, data quality, FK topology, explain plan, HTML reports."
+  default_prompt: "Use multi-db-analyzer to analyze databases. RULES: 1) You MUST ask the user for database TYPE, HOST, USER, PASSWORD - never assume defaults like localhost/root. 2) If the user does not specify any of these, ask directly. 3) Do not waste time trying default credentials. 4) When user does not specify a type, ask: 'Which database type? (mysql/mariadb/postgresql/sqlite/sqlserver/oracle/tidb/redis/elasticsearch/mongodb/influxdb/tdengine/vectordb/milvus/dolphindb)' then use --db-type accordingly."
+
+triggers:
+  - keyword: "database query"
+    patterns:
+      - "analyze.*database"
+      - "table.*schema"
+      - "MySQL.*query"
+      - "PostgreSQL.*analyze"
+      - "SQLite.*analyze"
+      - "SQL Server.*query"
+      - "Oracle.*analyze"
+      - "TiDB.*query"
+      - "Redis.*query"
+      - "Elasticsearch.*query"
+      - "MongoDB.*query"
+      - "InfluxDB.*query"
+      - "TDengine.*query"
+      - "vector.*database.*query"
+      - "Qdrant.*query"
+      - "time series.*query"
+      - "NoSQL.*analyze"
+      - "data quality.*assessment"
+      - "foreign key.*relationship"
+      - "SQL.*execution plan"
+    skill_ref: multi-db-analyzer
+
+input_schema:
+  type: object
+  properties:
+    db_type:
+      type: string
+      description: "REQUIRED: Database type. Codex MUST ask the user if not specified. NO default type is ever assumed. Options: mysql/mariadb/postgresql/sqlite/sqlserver/oracle/tidb/redis/elasticsearch/mongodb/influxdb/tdengine/vectordb/milvus/dolphindb"
+    host:
+      type: string
+      description: "REQUIRED: Database host. Codex MUST ask the user if not specified."
+    port:
+      type: integer
+      description: "Database port (optional, defaults per DB type)"
+    db:
+      type: string
+      description: "Database name / file path (SQLite) / Redis DB index"
+    user:
+      type: string
+      description: "REQUIRED: Database user. Codex MUST ask the user if not specified."
+    password:
+      type: string
+      description: "REQUIRED: Database password. Codex MUST ask the user if not specified (unless using saved profile)."
+    command:
+      type: string
+      description: "Command: --get-schema, --analyze-all, --analyze-table <table>, --get-relations, --explain <SQL>"
+  required:
+    - db_type
+    - host
+    - user
+    - password
+    - command
+
+output_example:
+  markdown: |
+    | Table | Engine | Est.Rows | Size(MB) | Cols | Comment |
+    |------|--------|---------|---------|------|---------|
+    | user | InnoDB | 1024 | 16.00 | 12 | User table |
+    | order | InnoDB | 5120 | 128.00 | 8 | Order table |
+  json: |
+    {
+      "status": "analyze_all_success",
+      "analysis": {
+        "database": "mydb",
+        "tables": [{"name":"user","engine":"InnoDB","estimatedRows":1024,"totalSizeMb":16.0,"columnCount":12}]
+      }
+    }

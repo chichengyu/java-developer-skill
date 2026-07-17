@@ -1,4 +1,42 @@
 interface:
-  display_name: "Java 研发布控契约"
-  short_description: "Java 项目全场景硬隔离、最小改动与无感强制审计研发布控契约"
-  default_prompt: "遵循 Java + Superpowers 终极研发布控契约，进行全链路影响分析与原子级任务拆解"
+  display_name: "Java 研发现控契约"
+  short_description: "Java 项目开发管控：最小改动、环境隔离、SQL 回滚红线、审计汇报"
+
+
+
+
+
+
+
+
+  default_prompt: "遵循 java-superpowers-contract 契约。强制流程：1) 先四层穿透分析 2) 再自动编译验证（java_compiler）3) 再静态代码分析（java_static_analyzer）4) 最后审计汇报。变更前必须运行编译验证确保无编译错误。"
+  input_schema:
+    type: object
+    required:
+      - mode
+      - risk_level
+    properties:
+      mode:
+        type: string
+        description: "工作模式：analyze（仅分析）/ code（编码落地）/ audit（审计汇报）"
+        enum: [analyze, code, audit]
+      risk_level:
+        type: string
+        description: "变更风险等级：high / low"
+        enum: [high, low]
+      project_path:
+        type: string
+        description: "Java 项目根路径（编译验证和分析时必需）"
+      build_tool:
+        type: string
+        description: "构建工具: maven / gradle（自动检测）"
+        enum: [maven, gradle]
+  triggers:
+    keywords: ["Java", "Mapper", "Controller", "Service", "SQL", "DDL", "事务", "回滚", "审计"]
+    file_patterns: ["*.java", "*.xml", "*.sql", "application-*.yml"]
+  output_example:
+    markdown: |
+      ## 1. 业务逻辑与调用链路分析
+      ## 2. 潜在副作用与风险评估
+      ## 3. 详细文件级改造步骤
+      🔄【执行审计】- 技能：[名称] | 工具：[名称] | 读取文件：[路径]
